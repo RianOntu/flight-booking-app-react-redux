@@ -1,20 +1,14 @@
-import { BOOK } from "./actionTypes";
+import { BOOK, DELETE_ROW } from "./actionTypes";
 
-const initialState = {
-  from: "",
-  to: "",
-  date: "",
-  guests: 0,
-  ticketClass: "",
-};
+const initialState = [];
 
 const formReducer = (state = initialState, action) => {
   switch (action.type) {
+   
     case BOOK:
-      return {
-        ...state,
-      };
-
+      return [...state, action.payload];
+    case DELETE_ROW:
+      return state.filter((item) => item.id !== action.payload);
     default:
       return state;
   }

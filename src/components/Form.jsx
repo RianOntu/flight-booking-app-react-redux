@@ -1,17 +1,30 @@
 import React from "react";
 import FormSvgOne from "./SVGS/FormSvgOne";
+import { useDispatch, useSelector } from "react-redux";
+import { BOOK } from "../redux/actionTypes";
+import { book } from "../redux/actionCreators";
 
 function Form() {
+  const dispatch = useDispatch();
+  const bookings = useSelector((state) => state);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+
+    const data = Object.fromEntries(formData.entries());
+    dispatch(book(data));
+  };
   return (
-    <div class="mt-[160px] mx-4 md:mt-[160px] relative">
-      <div class="bg-white rounded-md max-w-6xl w-full mx-auto">
-        <form class="first-hero lws-inputform">
-          <div class="des-from">
+    <div className="mt-[160px] mx-4 md:mt-[160px] relative">
+      <div className="bg-white rounded-md max-w-6xl w-full mx-auto">
+        <form className="first-hero lws-inputform" onSubmit={handleSubmit}>
+          <div className="des-from">
             <p>Destination From</p>
-            <div class="flex flex-row">
+            <div className="flex flex-row">
               <img src="/img/icons/Frame.svg" alt="" />
               <select
-                class="outline-none px-2 py-2 w-full"
+                className="outline-none px-2 py-2 w-full"
                 name="from"
                 id="lws-from"
                 required
@@ -27,12 +40,12 @@ function Form() {
             </div>
           </div>
 
-          <div class="des-from">
+          <div className="des-from">
             <p>Destination To</p>
-            <div class="flex flex-row">
+            <div className="flex flex-row">
               <img src="/img/icons/Frame.svg" alt="" />
               <select
-                class="outline-none px-2 py-2 w-full"
+                className="outline-none px-2 py-2 w-full"
                 name="to"
                 id="lws-to"
                 required
@@ -48,23 +61,23 @@ function Form() {
             </div>
           </div>
 
-          <div class="des-from">
+          <div className="des-from">
             <p>Journey Date</p>
             <input
               type="date"
-              class="outline-none px-2 py-2 w-full date"
+              className="outline-none px-2 py-2 w-full date"
               name="date"
               id="lws-date"
               required
             />
           </div>
 
-          <div class="des-from">
+          <div className="des-from">
             <p>Guests</p>
-            <div class="flex flex-row">
+            <div className="flex flex-row">
               <img src="/img/icons/Vector (1).svg" alt="" />
               <select
-                class="outline-none px-2 py-2 w-full"
+                className="outline-none px-2 py-2 w-full"
                 name="guests"
                 id="lws-guests"
                 required
@@ -80,14 +93,14 @@ function Form() {
             </div>
           </div>
 
-          <div class="des-from !border-r-0">
-            <p>Class</p>
-            <div class="flex flex-row">
+          <div className="des-from !border-r-0">
+            <p>className</p>
+            <div className="flex flex-row">
               <img src="/img/icons/Vector (3).svg" alt="" />
               <select
-                class="outline-none px-2 py-2 w-full"
-                name="ticketClass"
-                id="lws-ticketClass"
+                className="outline-none px-2 py-2 w-full"
+                name="ticketclassName"
+                id="lws-ticketclassName"
                 required
               >
                 <option value="" hidden>
@@ -99,9 +112,14 @@ function Form() {
             </div>
           </div>
 
-          <button class="addCity" type="submit" id="lws-addCity">
+          <button
+            disabled={bookings.length >= 3 ? true : false}
+            className={`${bookings.length >= 3 ? "disabled" : "addCity"}`}
+            type="submit"
+            id="lws-addCity"
+          >
             <FormSvgOne />
-            <span class="text-sm">Book</span>
+            <span className="text-sm">Book</span>
           </button>
         </form>
       </div>
